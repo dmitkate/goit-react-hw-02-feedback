@@ -11,11 +11,13 @@ export class App extends React.Component {
   };
 
   click = event => {
-    const name = event.target.dataset.action;
+    const name = event.target?.dataset?.action;
+
     this.setState(prevState => {
       return { [name]: prevState[name] + 1 };
     });
   };
+
   countTotalFeedback = () => {
     return this.state.good + this.state.neutral + this.state.bad;
   };
@@ -25,7 +27,7 @@ export class App extends React.Component {
 
   render() {
     const total = this.countTotalFeedback();
-    const positivePercentage = this.positivePercentage;
+    const proc = this.countPositiveFeedbackPercentage();
     let haveFeedback;
     total
       ? (haveFeedback = (
@@ -34,7 +36,7 @@ export class App extends React.Component {
             neutral={this.state.neutral}
             bad={this.state.bad}
             total={total}
-            positivePercentage={positivePercentage}
+            percent={proc}
           />
         ))
       : (haveFeedback = <Notificstion message={'There is no feedback'} />);
@@ -43,8 +45,8 @@ export class App extends React.Component {
       <div>
         <Section title={'Please leave feedback'}>
           <FeedbackOptions
-            options={Object.keys(this.state)}
             onLeaveFeedback={this.click}
+            options={Object.keys(this.state)}
           />
         </Section>
         <Section title={'Statistick'}>{haveFeedback}</Section>
@@ -52,24 +54,3 @@ export class App extends React.Component {
     );
   }
 }
-// hendleGood = () => {
-//   this.setState(prevState => {
-//     return {
-//       good: prevState.good + 1,
-//     };
-//   });
-// };
-// hendleNeutral = () => {
-//   this.setState(prevState => {
-//     return {
-//       neutral: prevState.neutral + 1,
-//     };
-//   });
-// };
-// hendleBad = () => {
-//   this.setState(prevState => {
-//     return {
-//       bad: prevState.bad + 1,
-//     };
-//   });
-// };
